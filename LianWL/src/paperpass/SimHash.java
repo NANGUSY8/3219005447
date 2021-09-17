@@ -83,4 +83,60 @@ public class SimHash {
             return x;
         }
     }
+
+    //根据SimHash算法算出文档的签名
+    public int  hammingDistance(SimHash other) {
+
+        BigInteger x = this .intSimHash.xor(other.intSimHash);
+        int tot = 0 ;
+
+        // 统计x中二进制位数为1的个数
+        //统计做出操作后n的数量
+        while (x.signum() !=  0 ) {
+            tot += 1 ;
+            x = x.and(x.subtract( new BigInteger( "1" )));
+        }
+        return tot;
+    }
+
+    ////计算两个签名的海明距离，海明距离越低，相似度越高
+    public int  getDistance(String str1, String str2) {
+        int distance;
+        if (str1.length() != str2.length()) {
+            distance = - 1 ;
+        } else  {
+            distance = 0 ;
+            for ( int  i =  0 ; i < str1.length(); i++) {
+                if (str1.charAt(i) == str2.charAt(i)) {
+                    distance++;
+                }
+            }
+        }
+        return distance;
+    }
+
+    public String getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(String tokens) {
+        this.tokens = tokens;
+    }
+
+    public BigInteger getIntSimHash() {
+        return intSimHash;
+    }
+
+    public void setIntSimHash(BigInteger intSimHash) {
+        this.intSimHash = intSimHash;
+    }
+
+    public String getStrSimHash() {
+        return strSimHash;
+    }
+
+    public void setStrSimHash(String strSimHash) {
+        this.strSimHash = strSimHash;
+    }
+
 }
