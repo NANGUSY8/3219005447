@@ -10,7 +10,11 @@ public class Test {
 
         if(args.length !=0){
             args = new String[3];
-            txtCheck.Test1(args[0], args[1],args[2]);
+            String origin = "\"" +args[0] +"\"";
+            String txtPath = "\"" +args[1] +"\"";
+            String outPath = "\"" +args[2] +"\"";
+
+            txtCheck.Test1(origin,txtPath,outPath);
         }else{
             //测试用例
             txtCheck.myTest();
@@ -23,23 +27,23 @@ public class Test {
     }
 
     public void myTest(){
-        String origin = "D:\\APP\\JAVA\\text2\\orig.txt";
+        String origin = "D:/APP/JAVA/text2/orig.txt";
         String[] txtPath={
-                "D:\\APP\\JAVA\\text2\\orig_0.8_add.txt",
-                "D:\\APP\\JAVA\\text2\\orig_0.8_del.txt",
-                "D:\\APP\\JAVA\\text2\\orig_0.8_dis_1.txt",
-                "D:\\APP\\JAVA\\text2\\orig_0.8_dis_10.txt",
-                "D:\\APP\\JAVA\\text2\\orig_0.8_dis_15.txt",
+                "D:/APP/JAVA/text2/orig_0.8_add.txt",
+                "D:/APP/JAVA/text2/orig_0.8_del.txt",
+                "D:/APP/JAVA/text2/orig_0.8_dis_1.txt",
+                "D:/APP/JAVA/text2/orig_0.8_dis_10.txt",
+                "D:/APP/JAVA/text2/orig_0.8_dis_15.txt",
         };
 
         String[] htmlPath={
-                "D:\\APP\\JAVA\\text\\orig_0.8_del.txt",
-                "D:\\APP\\JAVA\\text\\orig_0.8_dis_1.txt",
-                "D:\\APP\\JAVA\\text\\orig_0.8_dis_10.txt",
-                "D:\\APP\\JAVA\\text\\orig_0.8_dis_15.txt",
+                "D:/APP/JAVA/text/orig_0.8_del.txt",
+                "D:/APP/JAVA/text/orig_0.8_dis_1.txt",
+                "D:/APP/JAVA/text/orig_0.8_dis_10.txt",
+                "D:/APP/JAVA/text/orig_0.8_dis_15.txt",
         };
 
-        String outPath = "D:\\APP\\JAVA\\output.txt";
+        String outPath = "D:/APP/JAVA/output.txt";
 
         Test txtCheck1 = new Test();
 
@@ -77,7 +81,7 @@ public class Test {
             // 计算两个签名的海明距离
             double distance = hash1.getDistance(hash1.getStrSimHash(),hash2.getStrSimHash());
             DecimalFormat decimalFormat = new DecimalFormat("0.00");
-            System.out.println("抄袭文本"+ textPath +" 与原文:"+origin+"的相似度为"+((distance/64.0)*100)+"%");
+            System.out.println("抄袭文本"+ textPath +"与原文:"+origin+"的相似度为"+((distance/64.0)*100)+"%");
 
             //写入答案文件中
             File file = new File(outPath);

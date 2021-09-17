@@ -31,7 +31,7 @@ public class PathInput {
                 System.out.println(txtPath+"文本与"+textPath+"文本的相似度为"+decimalFormat.format(((distance/64.0)*100))+"%");
 
                 //避免测试用例的文件内容覆盖，新建另一个答案文件
-                String outPath1 = "D:\\APP\\JAVA\\output1.txt";
+                String outPath1 = "D:/APP/JAVA/output1.txt";
                 File file = new File(outPath1);
 
                 String content = "\r\n抄袭论文文件的路径：" + textPath + "\r\n论文原文的路径：" + txtPath + "\r\n论文重复率为" + decimalFormat.format(((distance/64.0)*100)+"%");
