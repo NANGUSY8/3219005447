@@ -1,6 +1,8 @@
 package paperpass;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class SimHash {
@@ -62,6 +64,36 @@ public class SimHash {
         this.strSimHash = simHashBuilder.toString();
 //        System.out.println(this.strSimHash + " length " + this.strSimHash.length());
         return fingerPrint;
+    }
+
+    // 分成几组来检查
+    public List subByDistance(SimHash simHash, int distance){
+        int numEach = this.hashBits/(distance+1);
+        List characters = new ArrayList();
+
+        StringBuilder strBud = new StringBuilder();
+
+        int k = 0;
+        for( int i = 0; i < this.intSimHash.bitLength(); i++){
+            // 当且仅当设置了指定的位时，返回 true
+            boolean sr = simHash.intSimHash.testBit(i);
+
+            if(sr){
+                strBud.append("1");
+            }
+            else{
+                strBud.append("0");
+            }
+
+            if( (i+1)%numEach == 0 ){
+                // 将二进制转为BigInteger
+                BigInteger eachValue = new BigInteger(strBud.toString(),2);
+//                System.out.println("----" +eachValue );
+                strBud.delete(0, strBud.length());
+                characters.add(eachValue);
+            }
+        }
+        return characters;
     }
 
     private BigInteger hash(String source) {
