@@ -16,26 +16,23 @@ public class PathInput {
             while (choice==1){
                 System.out.print("请输入论文原文的路径:");
                 String txtPath = scn.next();
-                StringBuffer strBuf2 = IOText.getText(txtPath);
+                SimHash hash1 = new SimHash(IOText.getText(txtPath),  64 );
 
                 System.out.print("请输入抄袭论文的路径:");
                 String textPath = scn.next();
-                StringBuffer strBuf1 = IOText.getText(textPath);
 
-                SimHash hash1 = new SimHash(strBuf1.toString(),  64 );
-                SimHash hash2 = new SimHash(strBuf2.toString(),  64 );
+                SimHash hash2 = new SimHash(IOText.getText(textPath),  64 );
 
                 //计算两个文档对应签名的海明距离
-                int distance = hash1.getDistance(hash1.getStrSimHash() , hash2.getStrSimHash());
+                double distance = hash1.getDistance(hash1.getStrSimHash() , hash2.getStrSimHash());
                 DecimalFormat decimalFormat = new DecimalFormat("0.00");
-                System.out.println(txtPath+"文本与"+textPath+"文本的相似度为"+decimalFormat.format(((distance/64.0)*100))+"%");
+                System.out.println(txtPath+"文本与"+textPath+"文本的相似度为"+decimalFormat.format((100-distance*100/128))+"%");
 
                 //避免测试用例的文件内容覆盖，新建另一个答案文件
-                String outPath1 = "D:/APP/JAVA/output1.txt";
-                File file = new File(outPath1);
+                String outPath1 = "D:\\APP\\JAVA\\output1.txt";
 
-                String content = "\r\n抄袭论文文件的路径：" + textPath + "\r\n论文原文的路径：" + txtPath + "\r\n论文重复率为" + decimalFormat.format(((distance/64.0)*100)+"%");
-                IOText.writeText(outPath1, content,file);
+                String content = "\r\n抄袭论文文件的路径：" + textPath + "\r\n论文原文的路径：" + txtPath + "\r\n论文重复率为" + decimalFormat.format((100-distance*100/128)+"%");
+                IOText.writeText(content,outPath1);
 
                 System.out.print("是否需要继续查询(是：1，否：0)");
                 choice = scn.nextInt();

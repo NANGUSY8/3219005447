@@ -11,10 +11,6 @@ public class SimHash {
     private BigInteger intSimHash;
     private String strSimHash;
     private int  hashBits = 64;
-    public SimHash(String tokens) {
-        this.tokens = tokens;
-        this.intSimHash = this.simHash();
-    }
 
     public SimHash(String tokens, int hashBits) {
         this.tokens = tokens;
@@ -30,9 +26,14 @@ public class SimHash {
          *        末尾一位加1，中间的62位减一,逢1加1,逢0减1.直到把所有的分词hash数列全部判断完毕.
          * 4、对数组进行判断,大于0的记为1,小于等于0的记为0,得到一个 64bit 的签名。
          */
+        BigInteger fingerPrint = new  BigInteger( "0" );
+        if (tokens.length() == 0){
+            this.strSimHash = "";
+            return fingerPrint;
+        }
         int[] v = new int [this.hashBits]; //定义特征向量/数组
         // 1、将文本进行划分，按照格式分词
-        StringTokenizer stringTokens = new StringTokenizer( this.tokens,"，。！、：“”");
+        StringTokenizer stringTokens = new StringTokenizer( this.tokens );
         while (stringTokens.hasMoreTokens()) {
             String temp = stringTokens.nextToken();
             //2、将每一个分词hash为一组固定长度的数列.比如 64bit 的一个整数.
@@ -50,7 +51,6 @@ public class SimHash {
                 }
             }
         }
-        BigInteger fingerPrint = new  BigInteger( "0" );
         StringBuilder simHashBuilder = new  StringBuilder();
         for ( int i = 0 ; i < this.hashBits; i++) {
             // 4、对数组进行判断,大于0的记为1,小于等于0的记为0,得到一个 64bit 的签名。
@@ -61,8 +61,9 @@ public class SimHash {
                 simHashBuilder.append( "0" );
             }
         }
+
         this.strSimHash = simHashBuilder.toString();
-//        System.out.println(this.strSimHash + " length " + this.strSimHash.length());
+        setStrSimHash(strSimHash);
         return fingerPrint;
     }
 
@@ -98,7 +99,7 @@ public class SimHash {
 
     private BigInteger hash(String source) {
         if (source == null || source.length() == 0 ) {
-            return new  BigInteger( "0" );
+            return new BigInteger( "0" );
         } else {
             char [] sourceArray = source.toCharArray();
             BigInteger x = BigInteger.valueOf((( long ) sourceArray[ 0 ]) <<  7 );
@@ -133,13 +134,15 @@ public class SimHash {
 
     ////计算两个签名的海明距离，海明距离越低，相似度越高
     public int  getDistance(String str1, String str2) {
-        int distance;
+        int distance = 0 ;
+        if(strSimHash.length() == 0 ||str1.length() == 0 || str2.length() == 0){
+            return  -2;
+        }
         if (str1.length() != str2.length()) {
-            distance = - 1 ;
+            distance = -1 ;
         } else  {
-            distance = 0 ;
             for ( int  i =  0 ; i < str1.length(); i++) {
-                if (str1.charAt(i) == str2.charAt(i)) {
+                if (str1.charAt(i) != str2.charAt(i)) {
                     distance++;
                 }
             }
@@ -159,10 +162,6 @@ public class SimHash {
         return intSimHash;
     }
 
-    public void setIntSimHash(BigInteger intSimHash) {
-        this.intSimHash = intSimHash;
-    }
-
     public String getStrSimHash() {
         return strSimHash;
     }
@@ -170,5 +169,6 @@ public class SimHash {
     public void setStrSimHash(String strSimHash) {
         this.strSimHash = strSimHash;
     }
+
 
 }

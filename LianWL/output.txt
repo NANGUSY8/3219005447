@@ -1,0 +1,4 @@
+
+抄袭文本文件的路径：text2\orig_0.8_del.txt
+原文的路径：text2\orig.txt
+文本相似率为72.00%
