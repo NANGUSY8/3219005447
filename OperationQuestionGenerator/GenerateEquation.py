@@ -9,7 +9,7 @@ def generate_equation(max_value):
     :param max_value: 生成数的最大值
     :return: 生成的随机式子
     """
-    operator = [' + ', ' - ', ' x ', ' ÷ ']
+    operator = [' + ', ' - ', ' x ', ' ÷ ']  # 运算符前后加空格
     end_opt = ' ='
     # 随机生成自然数和分数的个数，但控制总和不超过4，从而控制题目不超过三个运算符
     num_nature, num_fraction = np.random.randint(1, 3, size=2)
