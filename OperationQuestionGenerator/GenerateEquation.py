@@ -30,11 +30,31 @@ def generate_equation(max_value):
     bag = gen_nature + gen_fraction  # 将生成的自然整数和分数存在bag里
     len_bag = len(bag)
 
+    # left_bracket 生成左括号的位置,0代表不生成,bag里的数只有2个默认不生成
+    left_bracket = 0
+    # 生成右括号的位置
+    right_bracket = 0
+    if len_bag == 3:
+        left_bracket = np.random.randint(0, 3)
+    elif len_bag == 4:
+        left_bracket = np.random.randint(0, 4)
+
+    if left_bracket > 0:
+        if left_bracket != len_bag - 1:
+            right_bracket = np.random.randint(left_bracket+1, len_bag)
+        else:
+            right_bracket = len_bag
+
     for i in range(len_bag):
+        if left_bracket == i + 1:  # 加入左括号
+            equation += '('
+
         # 随机生成一个[0,len(bag))之间的整数
         randint = np.random.randint(len(bag))
         # 从 bag 取出第 randint 位的数，存进 equation 中
         equation += bag[randint]
+        if i + 1 == right_bracket:  # 加入右括号
+            equation += ')'
         if i < len_bag - 1:
             # len_bag-1即是i的最大取值，所以当i<len_bag-1时，后面加随机操作符
             equation += operator[randint]
@@ -42,6 +62,7 @@ def generate_equation(max_value):
             # 当i=len_bag时，把等号补上，式子完成，跳出循环
             equation += end_opt
         bag.pop(randint)  # 当数取出的时候，应该把它从bag里去除
+
     return equation
 
 
@@ -57,6 +78,6 @@ def check_fraction(fraction):
             fraction_str = '{}'.format(rounding)
         else:  # 不为整数
             fraction_str = '{}`{}'.format(rounding, fraction - rounding)
-    else:   # 为真分数
+    else:  # 为真分数
         fraction_str = str(fraction)
     return fraction_str
