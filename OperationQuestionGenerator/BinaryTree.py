@@ -1,7 +1,7 @@
-# 二叉树的结点
 import operator
 
 
+# 二叉树的结点
 class Node:
     def __init__(self, value):
         self.value = value
