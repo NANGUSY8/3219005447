@@ -47,14 +47,14 @@ def generate_equation(max_value):
 
     for i in range(len_bag):
         if left_bracket == i + 1:  # 加入左括号
-            equation += '('
+            equation += '( '
 
         # 随机生成一个[0,len(bag))之间的整数
         randint = np.random.randint(len(bag))
         # 从 bag 取出第 randint 位的数，存进 equation 中
         equation += bag[randint]
         if i + 1 == right_bracket:  # 加入右括号
-            equation += ')'
+            equation += ' )'
         if i < len_bag - 1:
             # len_bag-1即是i的最大取值，所以当i<len_bag-1时，后面加随机操作符
             equation += operator[randint]
@@ -62,7 +62,6 @@ def generate_equation(max_value):
             # 当i=len_bag时，把等号补上，式子完成，跳出循环
             equation += end_opt
         bag.pop(randint)  # 当数取出的时候，应该把它从bag里去除
-
     return equation
 
 
@@ -72,6 +71,7 @@ def check_fraction(fraction):
     :param fraction: 原分数
     :return: 返回处理后的分数
     """
+
     if fraction.numerator > fraction.denominator:  # 分子大于分母，即假分数
         rounding = fraction.numerator // fraction.denominator  # 提取带分数前面的整数
         if fraction - rounding == 0:  # 为整数
