@@ -29,22 +29,22 @@ def generate_equation(max_value):
     equation = ''
     bag = gen_nature + gen_fraction  # 将生成的自然整数和分数存在bag里
     len_bag = len(bag)
-
-    # left_bracket 生成左括号的位置,0代表不生成,bag里的数只有2个默认不生成
-    left_bracket = 0
-    # 生成右括号的位置
+    # left_bracket 生成左括号的位置,0代表不生成,1代表生成
+    left_bracket = np.random.randint(0, 2)
     right_bracket = 0
-    if len_bag == 3:
-        left_bracket = np.random.randint(0, 3)
-    elif len_bag == 4:
-        left_bracket = np.random.randint(0, 4)
-
-    if left_bracket > 0:
-        if left_bracket != len_bag - 1:
-            right_bracket = np.random.randint(left_bracket+1, len_bag)
-        else:
-            right_bracket = len_bag
-
+    if left_bracket == 0:
+        right_bracket = 0
+    else:
+        if len_bag == 3:
+            left_bracket = np.random.randint(0, 3)
+        elif len_bag == 4:
+            left_bracket = np.random.randint(0, 4)
+        # 生成有括号的位置
+        if left_bracket > 0:
+            if left_bracket != len_bag - 1:
+                right_bracket = np.random.randint(left_bracket+1, len_bag)
+            else:
+                right_bracket = len_bag
     for i in range(len_bag):
         if left_bracket == i + 1:  # 加入左括号
             equation += '( '

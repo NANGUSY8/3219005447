@@ -1,7 +1,8 @@
 import sys
+
+from BinaryTree import *
 from ComputeEquation import compute_equation
 from GenerateEquation import generate_equation
-from JudgeRepetition import is_repeat
 from Proofread import proofreading
 
 
@@ -39,16 +40,29 @@ def generate_file(q_num, num_range):
     a_list = list()
     count = 0
     while count < q_num:  # 小于式子指定数量时
+        # 判断重复，0为不重复，1为重复
+        repeat = 0
         equation = generate_equation(num_range)  # 生成随机式子
         answer = compute_equation(equation)  # 计算式子的答案
-        repeat = is_repeat(q_list, equation)  # 判断式子是否重复
+
+        a = generate_suffix(equation)  # equation 转化为后缀表达式
+        a_tree = new_tree(a)  # 生成二叉树
+        tree_list = list()
+
+        while len(tree_list) > 0:
+            for x in tree_list:
+                if same_judge(a_tree) == same_judge(x):  # 判断两个二叉树是否相同
+                    repeat = 1
+
+        # repeat = is_repeat(q_list, equation)  # 判断式子是否重复
         if answer == '除数为0':
             continue
-        elif answer != '-1' and repeat is False:  # 答案不出错以及不重复
+        elif answer != '-1' and repeat == 0:  # 答案不出错以及不重复
             # 将式子和答案写入列表中
             q_list.append(equation)
             a_list.append(answer)
             count += 1
+            tree_list.append(a_tree)
     for list_content, path in zip([q_list, a_list], ['Exercises.txt', 'Answers.txt']):
         order_num = 1
         with open(path, 'w') as f:
@@ -57,6 +71,7 @@ def generate_file(q_num, num_range):
                 f.write(content)
                 f.write('\n')
                 order_num += 1
+                print(order_num)
             # f.close()
 
 
@@ -79,6 +94,7 @@ def choice_fun(s1, s2):
 
 
 if __name__ == '__main__':
-    main()
-    """generate_equation(10)
-    generate_file(10000, 10)"""
+    # main()
+
+    generate_equation(10)
+    generate_file(1, 10)
