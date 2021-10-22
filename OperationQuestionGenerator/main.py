@@ -71,7 +71,7 @@ def generate_file(q_num, num_range):
                 f.write(content)
                 f.write('\n')
                 order_num += 1
-                print(order_num)
+            # print(order_num)
             # f.close()
 
 
