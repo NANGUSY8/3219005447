@@ -38,6 +38,7 @@ def generate_file(q_num, num_range):
     num_range = int(num_range)
     q_list = list()
     a_list = list()
+    tree_list = list()
     count = 0
     while count < q_num:  # 小于式子指定数量时
         # 判断重复，0为不重复，1为重复
@@ -47,12 +48,15 @@ def generate_file(q_num, num_range):
 
         a = generate_suffix(equation)  # equation 转化为后缀表达式
         a_tree = new_tree(a)  # 生成二叉树
-        tree_list = list()
 
-        while len(tree_list) > 0:
-            for x in tree_list:
-                if same_judge(a_tree) == same_judge(x):  # 判断两个二叉树是否相同
-                    repeat = 1
+        if len(tree_list) == 0:
+            tree_list.append(a_tree)
+        else:
+            for x in a_list:
+                if answer == x:    # 两个式子的答案相同时
+                    for y in tree_list:
+                        if same_judge(a_tree) == same_judge(y):  # 判断两个二叉树是否相同
+                            repeat = 1
 
         # repeat = is_repeat(q_list, equation)  # 判断式子是否重复
         if answer == '除数为0':
@@ -67,7 +71,7 @@ def generate_file(q_num, num_range):
         order_num = 1
         with open(path, 'w') as f:
             for line in list_content:  # 将列表中的内容写入文件
-                content = str(order_num) + ".  " + line
+                content = str(order_num) + "." + line
                 f.write(content)
                 f.write('\n')
                 order_num += 1
@@ -97,4 +101,5 @@ if __name__ == '__main__':
     # main()
 
     generate_equation(10)
-    generate_file(1, 10)
+    generate_file(1000, 10)
+    # proofreading('Exercises.txt', 'Answers.txt')

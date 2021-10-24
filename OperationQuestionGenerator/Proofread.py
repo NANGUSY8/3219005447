@@ -24,8 +24,11 @@ def proofreading(qf, af):
     proof = {'Correct': list(), 'Wrong': list()}
     # 计算每道题目的答案是否与答案文件中的相等
     for i in range(min_len):
+        equ_list = q_list[i].split('.')
+        ans_list = a_list[i].split('.')
+        print(equ_list[1])
         # 相等在Correct列表中添加序号
-        if compute_equation(q_list[i]) == a_list[i]:
+        if compute_equation(equ_list[1]) == ans_list[1]:
             proof['Correct'].append(i + 1)
         else:
             # 不等在Wrong列表中添加序号
